@@ -1,0 +1,590 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Entry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --white: #ffffff;
+
+      --slate-950: hsl(222 47% 6%);
+      --slate-900: hsl(222 44% 10%);
+      --slate-800: hsl(222 36% 16%);
+      --slate-700: hsl(222 28% 24%);
+      --slate-600: hsl(222 22% 35%);
+      --slate-500: hsl(222 18% 48%);
+      --slate-400: hsl(222 16% 64%);
+      --slate-300: hsl(222 16% 77%);
+      --slate-200: hsl(222 18% 87%);
+      --slate-100: hsl(222 22% 94%);
+      --slate-050: hsl(222 30% 98%);
+
+      --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+
+      --shadow-sm: 0 1px 2px hsl(222 47% 6% / 0.04);
+      --shadow-md: 0 12px 32px hsl(222 47% 6% / 0.07);
+      --transition: 180ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--slate-900);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before,
+    .page::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .page::before {
+      width: 52rem;
+      height: 52rem;
+      border-radius: 50%;
+      top: -18rem;
+      right: -14rem;
+      background: radial-gradient(circle, hsl(222 30% 97%) 0%, hsl(0 0% 100% / 0) 68%);
+    }
+
+    .page::after {
+      width: 42rem;
+      height: 42rem;
+      border-radius: 50%;
+      bottom: -16rem;
+      left: -12rem;
+      background: radial-gradient(circle, hsl(222 28% 97%) 0%, hsl(0 0% 100% / 0) 70%);
+    }
+
+    .shell {
+      width: min(100%, 430px);
+      position: relative;
+      z-index: 1;
+      animation: enter 480ms ease both;
+    }
+
+    @keyframes enter {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--slate-500);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--slate-300);
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 30px;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
+      line-height: 1.06;
+      letter-spacing: -0.04em;
+      color: var(--slate-950);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--slate-600);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin-bottom: 26px;
+      max-width: 32ch;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .input-wrap::after {
+      content: "";
+      position: absolute;
+      inset: auto 12px 10px 12px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--slate-200), transparent);
+      pointer-events: none;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--slate-300);
+      border-radius: var(--radius-md);
+      background: var(--slate-050);
+      color: var(--slate-950);
+      padding: 15px 16px;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      outline: none;
+      transition:
+        border-color var(--transition),
+        background-color var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition);
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--slate-400);
+      letter-spacing: 0.22em;
+    }
+
+    input[type="text"]:hover {
+      border-color: var(--slate-400);
+    }
+
+    input[type="text"]:focus {
+      background: var(--white);
+      border-color: var(--slate-700);
+      box-shadow: 0 0 0 4px hsl(222 44% 10% / 0.07);
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .submit-btn {
+      appearance: none;
+      border: none;
+      border-radius: var(--radius-md);
+      background: var(--slate-900);
+      color: var(--white);
+      padding: 14px 18px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition:
+        transform var(--transition),
+        background-color var(--transition),
+        box-shadow var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .submit-btn:hover {
+      background: var(--slate-950);
+      box-shadow: 0 10px 24px hsl(222 47% 6% / 0.14);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .hint {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--slate-500);
+      line-height: 1.6;
+    }
+
+    .result {
+      margin-top: 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--slate-200);
+      background: var(--slate-050);
+      padding: 18px;
+      animation: resultIn 220ms ease both;
+    }
+
+    @keyframes resultIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--slate-500);
+      margin-bottom: 10px;
+    }
+
+    .result.success {
+      border-color: var(--slate-300);
+      background: linear-gradient(180deg, var(--white), var(--slate-050));
+    }
+
+    .result.error {
+      border-color: var(--slate-300);
+      background: var(--white);
+    }
+
+    .code-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .code-value {
+      font-family: var(--font-mono);
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--slate-950);
+      letter-spacing: 0.08em;
+      padding: 10px 14px;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      flex: 1;
+      text-align: center;
+    }
+
+    .copy-btn {
+      appearance: none;
+      border: 1px solid var(--slate-300);
+      background: var(--white);
+      color: var(--slate-800);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition:
+        border-color var(--transition),
+        color var(--transition),
+        background-color var(--transition),
+        transform var(--transition);
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--slate-700);
+      color: var(--slate-950);
+      background: var(--slate-050);
+    }
+
+    .copy-btn:active {
+      transform: scale(0.98);
+    }
+
+    .copy-btn.copied {
+      border-color: var(--slate-800);
+      color: var(--slate-950);
+      background: var(--slate-100);
+    }
+
+    .error-text {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--slate-900);
+      text-transform: uppercase;
+    }
+
+    .result-meta {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--slate-500);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--slate-200), transparent);
+      margin: 24px 0 18px;
+    }
+
+    .microgrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .micro-item {
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    .micro-item span {
+      display: block;
+      font-size: 0.66rem;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+
+    .micro-item strong {
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      color: var(--slate-800);
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      color: var(--slate-400);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 24px 20px;
+      }
+
+      .code-row {
+        flex-direction: column;
+      }
+
+      .code-value,
+      .copy-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="shell">
+      <div class="eyebrow">Secure Entry</div>
+
+      <div class="card">
+        <h1>Enter access code</h1>
+        <p class="subtitle">
+          Type the code exactly as provided. The system will verify it and return the assigned response.
+        </p>
+
+        <form id="code-form" novalidate>
+          <label class="field-label" for="code-input">Access code</label>
+
+          <div class="input-wrap">
+            <input
+              id="code-input"
+              name="code"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              autocapitalize="characters"
+              placeholder="ENTER CODE"
+              aria-describedby="result-region"
+            />
+          </div>
+
+          <div class="actions">
+            <button class="submit-btn" type="submit">Verify code</button>
+          </div>
+        </form>
+
+        <div
+          id="result-region"
+          class="result"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+
+        <div class="divider"></div>
+
+        <div class="microgrid" aria-hidden="true">
+          <div class="micro-item">
+            <span>Status</span>
+            <strong id="status-chip">Idle</strong>
+          </div>
+          <div class="micro-item">
+            <span>Mode</span>
+            <strong>Manual</strong>
+          </div>
+          <div class="micro-item">
+            <span>Output</span>
+            <strong id="output-chip">—</strong>
+          </div>
+        </div>
+
+        <p class="hint">
+          Codes are case-sensitive. Enter the exact value to receive the corresponding output.
+        </p>
+      </div>
+
+      <div class="footer">Monochrome verification interface</div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("code-form");
+    const input = document.getElementById("code-input");
+    const resultRegion = document.getElementById("result-region");
+    const statusChip = document.getElementById("status-chip");
+    const outputChip = document.getElementById("output-chip");
+
+    const VALID_CODE = "JED";
+    const SUCCESS_CODE = "#30";
+
+    function escapeHtml(value) {
+      const div = document.createElement("div");
+      div.textContent = value;
+      return div.innerHTML;
+    }
+
+    function renderSuccess() {
+      statusChip.textContent = "Verified";
+      outputChip.textContent = SUCCESS_CODE;
+
+      resultRegion.className = "result success";
+      resultRegion.innerHTML = `
+        <p class="result-label">Returned code</p>
+        <div class="code-row">
+          <output class="code-value" id="returned-code">${escapeHtml(SUCCESS_CODE)}</output>
+          <button type="button" class="copy-btn" id="copy-button">Copy</button>
+        </div>
+        <p class="result-meta">Code accepted. Response generated successfully.</p>
+      `;
+      resultRegion.hidden = false;
+
+      const copyButton = document.getElementById("copy-button");
+
+      copyButton.addEventListener("click", async () => {
+        const originalText = copyButton.textContent;
+
+        try {
+          await navigator.clipboard.writeText(SUCCESS_CODE);
+          copyButton.textContent = "Copied";
+          copyButton.classList.add("copied");
+        } catch {
+          const tempInput = document.createElement("input");
+          tempInput.value = SUCCESS_CODE;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand("copy");
+          tempInput.remove();
+
+          copyButton.textContent = "Copied";
+          copyButton.classList.add("copied");
+        }
+
+        setTimeout(() => {
+          copyButton.textContent = originalText;
+          copyButton.classList.remove("copied");
+        }, 1400);
+      });
+    }
+
+    function renderError() {
+      statusChip.textContent = "Rejected";
+      outputChip.textContent = "—";
+
+      resultRegion.className = "result error";
+      resultRegion.innerHTML = `
+        <p class="result-label">Verification failed</p>
+        <p class="error-text">NOT CORRECT.</p>
+        <p class="result-meta">Please check the code and try again.</p>
+      `;
+      resultRegion.hidden = false;
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const value = input.value.trim();
+
+      if (value === VALID_CODE) {
+        renderSuccess();
+      } else {
+        renderError();
+      }
+    });
+
+    input.addEventListener("input", () => {
+      if (!resultRegion.hidden) {
+        resultRegion.hidden = true;
+        statusChip.textContent = "Idle";
+        outputChip.textContent = "—";
+      }
+    });
+
+    input.focus();
+  </script>
+</body>
+</html>
